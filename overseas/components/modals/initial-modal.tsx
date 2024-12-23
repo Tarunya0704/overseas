@@ -25,6 +25,7 @@ import {  Form,
 
 import {Input} from '@/components/ui/input'
 import { Button } from "@/components/ui/button";
+import { FileUpload } from "../file-upload";
 
 
 
@@ -71,7 +72,21 @@ return (
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <div className="space-y-8 px-6">
                     <div className="flex item-center justify-center text-center">
-                        TODO:IMAGE UPLOAD
+                       <FormField
+                       control={form.control}
+                       name="imageUrl"
+                       render={({ field }) => (
+                        <FormItem>
+                            <FormControl>
+                                <FileUpload
+                                
+                                endpoint="serverImage"
+                                value={field.value}
+                                onChange={field.onChange}/>
+                            </FormControl>
+                        </FormItem>
+                       )}
+                       />
 
                     </div>
                     <FormField 
