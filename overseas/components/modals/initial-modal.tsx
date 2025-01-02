@@ -28,7 +28,7 @@ import { Button } from "@/components/ui/button";
 import { FileUpload } from "../file-upload";
 import { useRouter } from "next/navigation";
 
-
+import { useAuth } from "@clerk/nextjs";
 
 const formSchema = z.object({
     name:z.string().min(1,{
@@ -39,36 +39,105 @@ const formSchema = z.object({
     })
 })
 
-export const InitialModal = () =>  {
-
+export const InitialModal = () => {
+    const { getToken } = useAuth();
     const router = useRouter();
 
-
-    const form  = useForm({
-
-        resolver:zodResolver(formSchema),
+    const form = useForm({
+        resolver: zodResolver(formSchema),
         defaultValues: {
-            name: " ",
-            imageUrl: " ",
+            name: "",
+            imageUrl: "",
         }
     });
 
+    const isLoading = form.formState.isSubmitting;
 
-const isLoading = form.formState.isSubmitting
+    const onSubmit = async(values: z.infer<typeof formSchema>) => {
+        try {
+            const token = await getToken();
+            
+            // Check if token exists before making the request
+            if (!token) {
+                throw new Error("No authentication token found");
+            }
 
-const onSubmit = async(values: z.infer <typeof formSchema>) => {
-    try{
+            const response = await axios.post("/api/servers", values, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
 
-        await axios.post("/api/servers", values);
-        form.reset();
-        router.refresh();
-        window.location.reload();
-
-    }catch (error){
-        console.log(error);
-
+            if (response.data) {
+                form.reset();
+                router.refresh();
+                window.location.reload();
+            }
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error.response?.status === 401) {
+                    // Redirect to the sign-in page if authentication fails
+                    router.push("/sign-up");
+                } else {
+                    console.error("An error occurred:", error.response?.data);
+                }
+            } else {
+                console.error("An unexpected error occurred:", error);
+            }
+        }
     }
-}
+// export const InitialModal = () =>  {
+
+//     const router = useRouter();
+
+
+//     const form  = useForm({
+
+//         resolver:zodResolver(formSchema),
+//         defaultValues: {
+//             name: " ",
+//             imageUrl: " ",
+//         }
+//     });
+
+
+// const isLoading = form.formState.isSubmitting
+
+// const onSubmit = async(values: z.infer <typeof formSchema>) => {
+//     try{
+
+//         await axios.post("/api/servers", values);
+//         form.reset();
+//         router.refresh();
+//         window.location.reload();
+
+//     }catch (error){
+//         console.log(error);
+
+//     }
+// }
+
+// const onSubmit = async(values: z.infer <typeof formSchema>) => {
+//     try {
+//         // Get the auth token (adjust this based on how you store your token)
+//         const token = localStorage.getItem('authToken'); // or however you store your auth token
+        
+//         await axios.post("/api/servers", values, {
+//             headers: {
+//                 'Authorization': `Bearer ${token}`, // Add the auth header
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+
+//         form.reset();
+//         router.refresh();
+//         window.location.reload();
+
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 
 return (
 

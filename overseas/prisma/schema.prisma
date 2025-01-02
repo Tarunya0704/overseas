@@ -6,7 +6,8 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+ 
+  relationMode = "prisma"
 }
         
 model Profile {
@@ -17,7 +18,7 @@ model Profile {
   email String @db.Text
 
   server Server[]
-  member Member []
+  members Member []
   channels Channel[]
 
   createdAt DateTime @default(now())
@@ -40,7 +41,7 @@ model Server {
 
 
 
-  @@index([ profileId])
+  @@index([profileId])
 }
 
 
@@ -65,8 +66,8 @@ model Member{
 
 
 
-    @@index([ profileId])
-    @@index([ serverId])
+    @@index([profileId])
+    @@index([serverId])
 
 }
 
@@ -91,7 +92,7 @@ model Channel{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([ profileId])
-  @@index([ serverId])
+  @@index([profileId])
+  @@index([serverId])
 
 }
