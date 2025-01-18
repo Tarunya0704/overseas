@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { cn } from "@/lib/utils";
+import { ModalProvider } from "@/components/providers/modal-provider";
 
 
 const geistSans = Geist({
@@ -21,6 +22,30 @@ export const metadata: Metadata = {
   description: "Students For Students",
 };
 
+// export default function RootLayout({
+//   children,
+// }: Readonly<{
+//   children: React.ReactNode;
+// }>) {
+//   return (
+//     <ClerkProvider>
+//     <html lang="en" suppressHydrationWarning>
+//       <body
+//         className={cn(`${geistSans.variable} ${geistMono.variable} antialiased`, " bg-white dark:bg-[#313338]")}
+//       >
+//         <ThemeProvider
+//         attribute="class"
+//         defaultTheme="dark"
+//         enableSystem={false}
+//         storageKey="discord-theme">
+          
+//         {children}
+//         </ThemeProvider>
+//       </body>
+//     </html>
+//     </ClerkProvider>
+//   );
+// }
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,19 +53,22 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(`${geistSans.variable} ${geistMono.variable} antialiased`, " bg-white dark:bg-[#313338]")}
-      >
-        <ThemeProvider
-        attribute="class"
-        defaultTheme="dark"
-        enableSystem={false}
-        storageKey="discord-theme">
-        {children}
-        </ThemeProvider>
-      </body>
-    </html>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={cn(`${geistSans.variable} ${geistMono.variable} antialiased`, " bg-white dark:bg-[#313338]")}
+        >
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+            storageKey="discord-theme"
+          >
+            {children}
+           
+            
+          </ThemeProvider>
+        </body>
+      </html>
     </ClerkProvider>
   );
 }
