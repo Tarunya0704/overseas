@@ -22,6 +22,41 @@ export const metadata: Metadata = {
   description: "Students For Students",
 };
 
+// app/layout.tsx
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={cn(
+            `${geistSans.variable} ${geistMono.variable} antialiased`,
+            "bg-white dark:bg-[#313338]"
+          )}
+        >
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+            storageKey="discord-theme"
+          >
+            <main>
+              {children}
+            </main>
+            {/* Place ModalProvider after main content */}
+            <ModalProvider/>
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
+  );
+}
+    
+  
+
 // export default function RootLayout({
 //   children,
 // }: Readonly<{
@@ -46,29 +81,3 @@ export const metadata: Metadata = {
 //     </ClerkProvider>
 //   );
 // }
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={cn(`${geistSans.variable} ${geistMono.variable} antialiased`, " bg-white dark:bg-[#313338]")}
-        >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem={false}
-            storageKey="discord-theme"
-          >
-            {children}
-           
-            
-          </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
-  );
-}
