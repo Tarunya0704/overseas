@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  
 }
 
 datasource db {
@@ -8,7 +7,6 @@ datasource db {
   url          = env("DATABASE_URL")
   directUrl    = env("DIRECT_URL")
   relationMode = "prisma"
-  
 }
 
 model Profile {
@@ -30,7 +28,8 @@ model Server {
   id         String    @id @default(uuid())
   name       String
   imageUrl   String    @db.Text
-  inviteCode String    @db.Text
+  inviteCode String    @unique
+  //i have used member instead of memebers same for channel instead of channels
   member     Member[]
   channel    Channel[]
 
