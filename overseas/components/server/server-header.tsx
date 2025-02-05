@@ -53,7 +53,10 @@ const isModerator = isAdmin || role === MemberRole.MODERATOR;
                 </DropdownMenuItem>
             )}
             {isAdmin && (
-                <DropdownMenuItem className="px-3 py-2 text-sm cursour-pointer">
+                <DropdownMenuItem
+                onClick={() => onOpen("members", {server})}
+                
+                className="px-3 py-2 text-sm cursour-pointer">
                     Manage members
                    <Users className="h-4 w-4 ml-auto"/>
                 </DropdownMenuItem>
