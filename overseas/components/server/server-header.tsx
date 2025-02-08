@@ -62,7 +62,9 @@ const isModerator = isAdmin || role === MemberRole.MODERATOR;
                 </DropdownMenuItem>
             )}
                {isModerator && (
-                <DropdownMenuItem className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursour-pointer">
+                <DropdownMenuItem
+                onClick={() => onOpen("createChannel")}
+                 className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursour-pointer">
                     Create channel
                     <PlusCircle className="h-4 w-4 ml-auto"/>
                 </DropdownMenuItem>
