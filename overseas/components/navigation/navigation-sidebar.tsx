@@ -1,3 +1,4 @@
+
 import { currentProfile } from "@/lib/current-profile";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
@@ -58,6 +59,10 @@ import { UserButton } from "@clerk/nextjs";
                 />
 
             </div>
+
+
+
+
         </div>
      );
 }
