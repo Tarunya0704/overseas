@@ -5,6 +5,8 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 
 
@@ -25,6 +27,8 @@ export const ServerSearch = ({
     data
 }: ServerSearchProps) => {
     const [open, setOpen] = useState(false);
+    const router = useRouter();
+    const params = useParams();
 
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
@@ -40,6 +44,20 @@ export const ServerSearch = ({
         }
 
     },[]);
+
+    const onClick = ( {id,type } : {id: string, type: "channel" | "member"}) => {
+        setOpen(false);
+        if(type= "member"){
+            return router.push(`/servers/${params.serverId}/conversations/${id}`)
+        }
+
+
+
+        if(type === "channel") {
+            return router.push(`/servers/${params.serverId}/channels/${id}`)
+        }
+           
+    }
 
 
 
@@ -76,7 +94,7 @@ export const ServerSearch = ({
                             {data?.map(({icon, name, id}) => {
 
                                 return(
-                                    <CommandItem key={id}>
+                                    <CommandItem key={id} onSelect={() => onClick({id, type})}>
                                         {icon}
                                         <span>{name}</span>
 
