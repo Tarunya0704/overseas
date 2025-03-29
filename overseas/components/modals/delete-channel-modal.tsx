@@ -37,7 +37,7 @@ export const DeleteChannelModal = () => {
     const isModalOpen = isOpen && type === "deleteChannel";
     const {server , channel } = data;
     const router = useRouter();
-    const params = useParams();
+    //const params = useParams();
 
    
     const [isloading, setIsLoading] = useState(false);
@@ -49,17 +49,17 @@ export const DeleteChannelModal = () => {
             const url = qs.stringify({
                 url:`/api/channels/${channel?.id}`,
                 query:{
-                    serverId: params?.serverId
+                    serverId: server?.id
                 }
             })
 
 
 
-            await axios.delete(`/api/servers/${server?.id}`);
+            await axios.delete(url);
 
             onClose();
             router.refresh();
-            router.push("/");
+            router.push(`/servers/${server?.id}`);
 
 
 
