@@ -63,7 +63,9 @@ if(!channel || !member) {
       </div>
       <ChatInput
         apiUrl={`/api/socket/messages`}
-        query={{ channelId: channel.id ,serverId: channel.serverId }}
+        query={{ 
+          channelId: channel.id ,
+          serverId: channel.serverId }}
         name={channel.name}
         type="channel"
       />
