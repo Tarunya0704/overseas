@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { ChatHeader } from "@/components/chat/chat-header";
 
 import { db } from "@/lib/db";
+import { ChatInput } from "@/components/chat/chat-input";
 
 
 interface ChannelIdPageProps {
@@ -55,6 +56,16 @@ if(!channel || !member) {
       serverId={channel.serverId}
       type="channel"
 
+      />
+      <div className="flex-1 ">
+        Future Messages!
+        
+      </div>
+      <ChatInput
+        apiUrl={`/api/socket/messages`}
+        query={{ channelId: channel.id ,serverId: channel.serverId }}
+        name={channel.name}
+        type="channel"
       />
       
     </div>
