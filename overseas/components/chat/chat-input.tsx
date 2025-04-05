@@ -62,11 +62,11 @@ export const ChatInput = ({
         }catch (error) {
             console.log( error);
     }
-
+    }
 
 
     
- 
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -108,4 +108,4 @@ export const ChatInput = ({
 
         </Form>
     )
-}};
+};
