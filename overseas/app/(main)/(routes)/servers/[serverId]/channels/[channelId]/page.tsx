@@ -5,6 +5,7 @@ import { ChatHeader } from "@/components/chat/chat-header";
 
 import { db } from "@/lib/db";
 import { ChatInput } from "@/components/chat/chat-input";
+import { ChatMessages } from "@/components/chat/chat-messages";
 
 
 interface ChannelIdPageProps {
@@ -57,10 +58,17 @@ if(!channel || !member) {
       type="channel"
 
       />
-      <div className="flex-1 ">
-        Future Messages!
-        
-      </div>
+      <ChatMessages
+        name={channel.name}
+        member={member}
+        chatId={channel.id}
+        apiUrl={`/api/messages`}
+        sockretUrl={`/api/socket/messages`}
+        socketQuery={{ channelId: channel.id , serverId: channel.serverId }}
+        paramKey="channelId"
+        paramValue={channel.id}
+        type="channel"
+      />
       <ChatInput
         apiUrl={`/api/socket/messages`}
         query={{ 
