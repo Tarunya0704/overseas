@@ -5,7 +5,10 @@ import { ChatWelcome } from "./chat-welcome";
 import { useChatQuery } from "@/hooks/use-chat-query";
 import { Loader2, ServerCrash } from "lucide-react";
 import { Fragment } from "react";
+import { ChatItem } from "./chat-item";
+import { format } from "date-fns";
 
+const DATE_FORMAT = "d MMM yyyy , HH:mm";
 
 type MessagewithMemberWithProfile = Message & {
     member: Member & {
@@ -51,7 +54,7 @@ export const ChatMessages = ({
         paramValue,
     });
 
-    if(status === "loading") {
+    if(status === "pending") {
         return (
             <div className="flex-1  flex flex-col justify-center items-center ">
                 <Loader2 className="h-7 w-7 text-zinc-500 animate-spin my-4"/>
@@ -89,10 +92,20 @@ export const ChatMessages = ({
           <div className="flex flex-col-reverse mt-auto">
             {data?.pages?.map((group, i) => (
                 <Fragment key={i}>
-                    {group.items.map((messages: MessagewithMemberWithProfile ) => (
-                        <div key={messages.id} >
-                            {messages.content}
-                        </div>
+                    {group.items.map((message: MessagewithMemberWithProfile ) => (
+                        <ChatItem
+                            key={message.id}
+                            id={message.id}
+                            content={message.content}
+                            member={message.member}
+                            timestamp={format(new Date(message.createdAt), DATE_FORMAT)}
+                            fileUrl={message.fileUrl}
+                            deleted={message.deleted}
+                            currentMember={member}
+                            isUpdated={message.updatedAt !== message.createdAt}
+                            socketUrl={sockretUrl}
+                            socketQuery={socketQuery}
+                        />
                     ))}
 
                 </Fragment>
