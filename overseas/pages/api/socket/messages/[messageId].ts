@@ -31,7 +31,7 @@ export default async function handler (
                 id: serverId as string,
                 member: {
                     some: {
-                        id: profile.id
+                        profileId: profile.id
                     }
                 }
             },

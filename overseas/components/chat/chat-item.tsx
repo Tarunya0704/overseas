@@ -1,6 +1,6 @@
 "use client ";
 
-import { Member, MemberRole, Message, Profile } from "@prisma/client";
+import { Member, MemberRole,  Profile } from "@prisma/client";
 import { UserAvatar } from "../user-avatar";
 import { ActionTooltip } from "../action-tooltip";
 import { Edit, ShieldAlert, ShieldCheck, Trash } from "lucide-react";
@@ -97,7 +97,7 @@ export const ChatItem = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
        try {
         const url = qs.stringifyUrl({
-            url: `{socketUrl}/${id}`,
+            url: `${socketUrl}/${id}`,
             query: socketQuery,
         });
 
