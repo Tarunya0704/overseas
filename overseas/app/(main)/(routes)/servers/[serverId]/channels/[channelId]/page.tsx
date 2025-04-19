@@ -1,3 +1,5 @@
+
+
 import { currentProfile } from "@/lib/current-profile";
 import { RedirectToSignIn } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
@@ -6,6 +8,8 @@ import { ChatHeader } from "@/components/chat/chat-header";
 import { db } from "@/lib/db";
 import { ChatInput } from "@/components/chat/chat-input";
 import { ChatMessages } from "@/components/chat/chat-messages";
+import { ChannelType } from "@prisma/client";
+import { MediaRoom } from "@/components/media-room";
 
 
 interface ChannelIdPageProps {
@@ -58,7 +62,9 @@ if(!channel || !member) {
       type="channel"
 
       />
-      <ChatMessages
+      {channel.type === ChannelType.TEXT && (
+        <>
+         <ChatMessages
         name={channel.name}
         member={member}
         chatId={channel.id}
@@ -68,15 +74,35 @@ if(!channel || !member) {
         paramKey="channelId"
         paramValue={channel.id}
         type="channel"
-      />
-      <ChatInput
+        />
+       <ChatInput
         apiUrl={`/api/socket/messages`}
         query={{ 
           channelId: channel.id ,
           serverId: channel.serverId }}
         name={channel.name}
         type="channel"
-      />
+       />
+
+      </>
+      )}
+      {channel.type === ChannelType.AUDIO && (
+        <MediaRoom
+        chatId={channel.id}
+        video={false}
+        audio={true}
+        />
+      )}
+      {channel.type === ChannelType.VIDEO && (
+        <MediaRoom
+        chatId={channel.id}
+        video={true}
+        audio={true}
+        />
+      )}
+
+
+     
       
     </div>
   );
